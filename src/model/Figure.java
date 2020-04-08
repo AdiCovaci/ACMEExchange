@@ -23,6 +23,10 @@ public class Figure {
         return currency;
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
     @Override
     public String toString() {
         return String.format("%.2f ", amount) + currency.toString();

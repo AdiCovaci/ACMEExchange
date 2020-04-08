@@ -1,17 +1,31 @@
 package model;
 
 public class ExchangeRate {
-    private Currency clientCurrency;
-    private Currency tellerCurrency;
-    private float buyRate;
-    private float sellRate;
-    private float trueRate;
+    private Currency currency;
+    private double buyRate;
+    private double sellRate;
+    private double trueRate;
 
-    public ExchangeRate(Currency clientCurrency, Currency tellerCurrency, float buyRate, float sellRate, float trueRate) {
-        this.clientCurrency = clientCurrency;
-        this.tellerCurrency = tellerCurrency;
+    public ExchangeRate(Currency currency, double buyRate, double sellRate, double trueRate) {
+        this.currency = currency;
         this.buyRate = buyRate;
         this.sellRate = sellRate;
         this.trueRate = trueRate;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public Figure getBuyFigure(Figure clientFigure) {
+        return new Figure(BaseCurrency.getInstance(), clientFigure.getAmount() * buyRate);
+    }
+
+    public Figure getSellFigure(Figure targetFigure) {
+        return new Figure(BaseCurrency.getInstance(), targetFigure.getAmount() * sellRate);
+    }
+
+    public Figure getExchangeFigure(Figure clientFigure, Currency targetCurrency) {
+        return new Figure(targetCurrency, clientFigure.getAmount() / sellRate);
     }
 }

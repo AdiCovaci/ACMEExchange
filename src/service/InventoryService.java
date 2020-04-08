@@ -4,7 +4,7 @@ import model.Currency;
 import model.Figure;
 import model.Inventory;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class InventoryService {
     private Inventory inventory;
@@ -21,7 +21,7 @@ public class InventoryService {
         inventory.withdraw(figure);
     }
 
-    public HashMap<Currency, Figure> getInventoryFigures() {
+    public Map<Currency, Figure> getInventoryFigures() {
         return inventory.getFigures();
     }
 

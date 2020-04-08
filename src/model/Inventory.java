@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Inventory {
-    private HashMap<Currency, Figure> figures;
+    private Map<Currency, Figure> figures = new HashMap<>();
 
-    public Inventory() {
-        figures = new HashMap<>();
+    private Inventory() {
+
     }
 
     public boolean hasCurrency(Currency currency) {
@@ -37,7 +37,7 @@ public class Inventory {
             figures.get(figure.getCurrency()).subtract(figure);
     }
 
-    public HashMap<Currency, Figure> getFigures() {
+    public Map<Currency, Figure> getFigures() {
         return figures;
     }
 

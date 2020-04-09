@@ -18,7 +18,11 @@ public class InventoryService {
     }
 
     public void withdrawFromInventory(Figure figure) {
-        inventory.withdraw(figure);
+        try {
+            inventory.withdraw(figure);
+        } catch (Inventory.InsufficientFundsException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public Map<Currency, Figure> getInventoryFigures() {
@@ -37,10 +41,10 @@ public class InventoryService {
 
         for (Currency currency : currencyRepository.getCurrencies()) {
             if (currency.equals(BaseCurrency.getInstance())) {
-                value.add(inventory.getFigure(currency));
+                value = value.add(inventory.getFigure(currency));
             } else {
                 ExchangeRate exchangeRate = exchangeRateRepository.findExchangeRateByCurrency(currency).get();
-                value.add(exchangeRate.getRealFigure(inventory.getFigure(currency)));
+                value = value.add(exchangeRate.getRealFigure(inventory.getFigure(currency)));
             }
         }
 

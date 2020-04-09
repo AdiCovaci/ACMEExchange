@@ -15,7 +15,7 @@ public class CurrencyRepository {
         currencies.add(new FiatCurrency("United States Dollar", "USD", "$", 0.01));
         currencies.add(new FiatCurrency("British Pound", "GBP", "£", 0.01));
         currencies.add(new FiatCurrency("Euro", "EUR", "€", 0.01));
-        currencies.add(new Commodity("Gold", "XAU"));
+        currencies.add(new Commodity("Gold", "XAU", "g"));
     }
 
     public Set<Currency> getCurrencies() {

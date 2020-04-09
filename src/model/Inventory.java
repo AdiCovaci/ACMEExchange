@@ -26,15 +26,22 @@ public class Inventory {
     }
 
     public void deposit(Figure figure) {
+        Figure inventoryFigure = getFigure(figure.getCurrency());
+
         if (hasCurrency(figure.getCurrency()))
-            figures.get(figure.getCurrency()).add(figure);
+            setFigure(inventoryFigure.add(figure));
         else
             setFigure(figure);
     }
 
-    public void withdraw(Figure figure) {
+    public void withdraw(Figure figure) throws InsufficientFundsException {
+        Figure inventoryFigure = getFigure(figure.getCurrency());
+
+        if (inventoryFigure.subtract(figure).isNegative())
+            throw new InsufficientFundsException();
+
         if (hasCurrency(figure.getCurrency()))
-            figures.get(figure.getCurrency()).subtract(figure);
+            setFigure(inventoryFigure.subtract(figure));
     }
 
     public Map<Currency, Figure> getFigures() {
@@ -47,5 +54,11 @@ public class Inventory {
 
     private static class SingletonHolder {
         private static Inventory INSTANCE = new Inventory();
+    }
+
+    public static class InsufficientFundsException extends Exception {
+        public InsufficientFundsException() {
+            super("Not enough funds in inventory for the current operation");
+        }
     }
 }

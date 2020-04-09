@@ -11,16 +11,16 @@ public class Figure {
 
     public Figure add(Figure figure) {
         if (currency.equals(figure.currency))
-            amount += figure.amount;
+            return new Figure(currency, amount + figure.amount);
 
-        return this;
+        throw new DifferentCurrencyException();
     }
 
     public Figure subtract(Figure figure) {
         if (currency.equals(figure.currency))
-            amount -= figure.amount;
+            return new Figure(currency, amount - figure.amount);
 
-        return this;
+        throw new DifferentCurrencyException();
     }
 
     public Currency getCurrency() {
@@ -31,8 +31,18 @@ public class Figure {
         return amount;
     }
 
+    public boolean isNegative() {
+        return amount < 0;
+    }
+
     @Override
     public String toString() {
-        return String.format("%.2f ", amount) + currency.toString();
+        return currency.formatFigure(amount);
+    }
+
+    public static class DifferentCurrencyException extends RuntimeException {
+        public DifferentCurrencyException() {
+            super("Cannot apply operations on figures having different currencies");
+        }
     }
 }

@@ -23,7 +23,7 @@ public class ExchangeService {
         if (optionalExchangeRate.isPresent())
             exchangeRate = optionalExchangeRate.get();
         else
-            throw new Error();
+            throw new NoExchangeRateFoundException();
 
         return exchangeRate.getBuyFigure(clientFigure);
     }
@@ -37,14 +37,14 @@ public class ExchangeService {
         if (optionalExchangeRate.isPresent())
             exchangeRate = optionalExchangeRate.get();
         else
-            throw new Error();
+            throw new NoExchangeRateFoundException();
 
         return exchangeRate.getSellFigure(targetFigure);
     }
 
     public Figure viewExchange(Figure clientFigure, Currency targetCurrency) {
         if (!clientFigure.getCurrency().equals(BaseCurrency.getInstance()))
-            throw new Error();
+            throw new ExchangeBetweenNonBaseCurrenciesException();
 
         ExchangeRateRepository exchangeRateRepository = ExchangeRateRepository.getInstance();
         Optional<ExchangeRate> optionalExchangeRate = exchangeRateRepository.findExchangeRateByCurrency(targetCurrency);
@@ -53,7 +53,7 @@ public class ExchangeService {
         if (optionalExchangeRate.isPresent())
             exchangeRate = optionalExchangeRate.get();
         else
-            throw new Error();
+            throw new NoExchangeRateFoundException();
 
         return exchangeRate.getExchangeFigure(clientFigure, targetCurrency);
     }
@@ -91,5 +91,17 @@ public class ExchangeService {
 
     private static class SingletonHolder {
         private static ExchangeService INSTANCE = new ExchangeService();
+    }
+
+    public static class NoExchangeRateFoundException extends RuntimeException {
+        public NoExchangeRateFoundException() {
+            super("No exchange rate found for this currency");
+        }
+    }
+
+    public static class ExchangeBetweenNonBaseCurrenciesException extends RuntimeException {
+        public ExchangeBetweenNonBaseCurrenciesException() {
+            super("Cannot exchange between two non-base currencies");
+        }
     }
 }

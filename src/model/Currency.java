@@ -3,9 +3,9 @@ package model;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Currency {
-    private String name;
-    private String code;
+public abstract class Currency {
+    protected String name;
+    protected String code;
 
     public static Comparator<Currency> currencyComparator = Comparator.comparing(Currency::getCode);
 
@@ -17,6 +17,8 @@ public class Currency {
     public String getCode() {
         return code;
     }
+
+    public abstract String formatFigure(double amount);
 
     @Override
     public boolean equals(Object o) {

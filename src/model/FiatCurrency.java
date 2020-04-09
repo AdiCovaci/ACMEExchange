@@ -9,4 +9,11 @@ public class FiatCurrency extends Currency {
         this.sign = sign;
         this.subunit = subunit;
     }
+
+    public String formatFigure(double amount) {
+        if (sign.equals(""))
+            return String.format("%.2f ", amount) + code;
+
+        return sign + String.format("%.2f", amount);
+    }
 }

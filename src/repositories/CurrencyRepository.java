@@ -3,12 +3,10 @@ package repositories;
 import model.BaseCurrency;
 import model.Currency;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class CurrencyRepository {
-    private Set<Currency> currencies = new HashSet<>();
+    private Set<Currency> currencies = new TreeSet<>(Currency.currencyComparator);
 
     private CurrencyRepository() {
         currencies.add(BaseCurrency.getInstance());

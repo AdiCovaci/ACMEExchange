@@ -9,14 +9,18 @@ public class Figure {
         this.amount = amount;
     }
 
-    public void add(Figure figure) {
+    public Figure add(Figure figure) {
         if (currency.equals(figure.currency))
             amount += figure.amount;
+
+        return this;
     }
 
-    public void subtract(Figure figure) {
+    public Figure subtract(Figure figure) {
         if (currency.equals(figure.currency))
             amount -= figure.amount;
+
+        return this;
     }
 
     public Currency getCurrency() {

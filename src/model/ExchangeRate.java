@@ -28,4 +28,8 @@ public class ExchangeRate {
     public Figure getExchangeFigure(Figure clientFigure, Currency targetCurrency) {
         return new Figure(targetCurrency, clientFigure.getAmount() / sellRate);
     }
+
+    public Figure getRealFigure(Figure exchangedFigure) {
+        return new Figure(BaseCurrency.getInstance(), exchangedFigure.getAmount() * trueRate);
+    }
 }

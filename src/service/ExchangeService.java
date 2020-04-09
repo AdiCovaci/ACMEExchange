@@ -58,6 +58,33 @@ public class ExchangeService {
         return exchangeRate.getExchangeFigure(clientFigure, targetCurrency);
     }
 
+    public void buy(Figure clientFigure) {
+        InventoryService inventoryService = new InventoryService();
+
+        Figure buyFigure = viewBuy(clientFigure);
+
+        inventoryService.withdrawFromInventory(buyFigure);
+        inventoryService.depositIntoInventory(clientFigure);
+    }
+
+    public void sell(Figure targetFigure) {
+        InventoryService inventoryService = new InventoryService();
+
+        Figure sellFigure = viewSell(targetFigure);
+
+        inventoryService.withdrawFromInventory(targetFigure);
+        inventoryService.depositIntoInventory(sellFigure);
+    }
+
+    public void exchange(Figure clientFigure, Currency targetCurrency) {
+        InventoryService inventoryService = new InventoryService();
+
+        Figure exchangeFigure = viewExchange(clientFigure, targetCurrency);
+
+        inventoryService.withdrawFromInventory(exchangeFigure);
+        inventoryService.depositIntoInventory(clientFigure);
+    }
+
     public static ExchangeService getInstance() {
         return SingletonHolder.INSTANCE;
     }

@@ -77,5 +77,9 @@ public class Main {
         System.out.println(inventoryService.getInventoryFigures());
         inventoryService.withdrawFromInventory(new Figure(RON, 1000000));
         System.out.println(inventoryService.getInventoryFigures());
+
+        // Try to exchange 100 EUR into USD
+        exchangeService.exchange(new Figure(EUR, 100), USD);
+        System.out.println(inventoryService.getInventoryFigures());
     }
 }

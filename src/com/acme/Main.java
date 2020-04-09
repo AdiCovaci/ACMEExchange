@@ -1,6 +1,7 @@
 package com.acme;
 
-import model.Currency;
+import model.Commodity;
+import model.FiatCurrency;
 import model.Figure;
 import repositories.CurrencyRepository;
 import service.ExchangeService;
@@ -12,9 +13,10 @@ public class Main {
         InventoryService inventoryService = InventoryService.getInstance();
         CurrencyRepository currencyRepository = CurrencyRepository.getInstance();
 
-        Currency RON = currencyRepository.findCurrencyByCode("RON").get();
-        Currency USD = currencyRepository.findCurrencyByCode("USD").get();
-        Currency EUR = currencyRepository.findCurrencyByCode("EUR").get();
+        FiatCurrency RON = (FiatCurrency) currencyRepository.findCurrencyByCode("RON").get();
+        FiatCurrency USD = (FiatCurrency) currencyRepository.findCurrencyByCode("USD").get();
+        FiatCurrency EUR = (FiatCurrency) currencyRepository.findCurrencyByCode("EUR").get();
+        Commodity Gold = (Commodity) currencyRepository.findCurrencyByCode("XAU").get();
 
         inventoryService.depositIntoInventory(new Figure(RON, 50000));
         inventoryService.depositIntoInventory(new Figure(USD, 1000));
@@ -36,6 +38,9 @@ public class Main {
         System.out.println(exchangeService.viewExchange(new Figure(RON, 100), EUR));
 
         exchangeService.buy(new Figure(EUR, 100));
+        System.out.println(inventoryService.getInventoryFigures());
+
+        exchangeService.buy(new Figure(Gold, 100));
         System.out.println(inventoryService.getInventoryFigures());
 
         exchangeService.sell(new Figure(EUR, 100));

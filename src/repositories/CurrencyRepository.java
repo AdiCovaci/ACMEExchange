@@ -1,7 +1,9 @@
 package repositories;
 
 import model.BaseCurrency;
+import model.Commodity;
 import model.Currency;
+import model.FiatCurrency;
 
 import java.util.*;
 
@@ -10,9 +12,10 @@ public class CurrencyRepository {
 
     private CurrencyRepository() {
         currencies.add(BaseCurrency.getInstance());
-        currencies.add(new Currency("United States Dollar", "USD"));
-        currencies.add(new Currency("British Pound", "GBP"));
-        currencies.add(new Currency("Euro", "EUR"));
+        currencies.add(new FiatCurrency("United States Dollar", "USD", "$", 0.01));
+        currencies.add(new FiatCurrency("British Pound", "GBP", "£", 0.01));
+        currencies.add(new FiatCurrency("Euro", "EUR", "€", 0.01));
+        currencies.add(new Commodity("Gold", "XAU"));
     }
 
     public Set<Currency> getCurrencies() {

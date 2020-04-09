@@ -39,6 +39,15 @@ public class ExchangeRateRepository {
                     5.9
             )
         );
+
+        exchangeRates.add(
+                new ExchangeRate(
+                        currencyRepository.findCurrencyByCode("XAU").get(),
+                        225,
+                        250,
+                        233.17
+                )
+        );
     }
 
     public Optional<ExchangeRate> findExchangeRateByCurrency(Currency currency) {

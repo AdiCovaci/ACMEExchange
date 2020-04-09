@@ -1,5 +1,7 @@
 package model;
 
+import exception.DifferentCurrencyException;
+
 public class Figure {
     private Currency currency;
     private double amount;
@@ -38,11 +40,5 @@ public class Figure {
     @Override
     public String toString() {
         return currency.formatFigure(amount);
-    }
-
-    public static class DifferentCurrencyException extends RuntimeException {
-        public DifferentCurrencyException() {
-            super("Cannot apply operations on figures having different currencies");
-        }
     }
 }

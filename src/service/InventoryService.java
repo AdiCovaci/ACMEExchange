@@ -1,10 +1,12 @@
 package service;
 
+import exception.InsufficientFundsException;
 import model.*;
 import repositories.CurrencyRepository;
 import repositories.ExchangeRateRepository;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class InventoryService {
     private Inventory inventory;
@@ -20,7 +22,7 @@ public class InventoryService {
     public void withdrawFromInventory(Figure figure) {
         try {
             inventory.withdraw(figure);
-        } catch (Inventory.InsufficientFundsException e) {
+        } catch (InsufficientFundsException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -43,7 +45,16 @@ public class InventoryService {
             if (currency.equals(BaseCurrency.getInstance())) {
                 value = value.add(inventory.getFigure(currency));
             } else {
-                ExchangeRate exchangeRate = exchangeRateRepository.findExchangeRateByCurrency(currency).get();
+                Optional<ExchangeRate> optionalExchangeRate = exchangeRateRepository.findExchangeRateByCurrency(currency);
+                ExchangeRate exchangeRate;
+
+                if (optionalExchangeRate.isPresent()) {
+                    exchangeRate = optionalExchangeRate.get();
+                } else {
+                    System.out.println("No exchange rate for " + currency);
+                    continue;
+                }
+
                 value = value.add(exchangeRate.getRealFigure(inventory.getFigure(currency)));
             }
         }

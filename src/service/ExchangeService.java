@@ -1,5 +1,7 @@
 package service;
 
+import exception.ExchangeBetweenNonBaseCurrenciesException;
+import exception.NoExchangeRateFoundException;
 import model.BaseCurrency;
 import model.Currency;
 import model.ExchangeRate;
@@ -91,17 +93,5 @@ public class ExchangeService {
 
     private static class SingletonHolder {
         private static ExchangeService INSTANCE = new ExchangeService();
-    }
-
-    public static class NoExchangeRateFoundException extends RuntimeException {
-        public NoExchangeRateFoundException() {
-            super("No exchange rate found for this currency");
-        }
-    }
-
-    public static class ExchangeBetweenNonBaseCurrenciesException extends RuntimeException {
-        public ExchangeBetweenNonBaseCurrenciesException() {
-            super("Cannot exchange between two non-base currencies");
-        }
     }
 }

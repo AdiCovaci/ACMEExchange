@@ -1,5 +1,7 @@
 package model;
 
+import exception.InsufficientFundsException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,11 +56,5 @@ public class Inventory {
 
     private static class SingletonHolder {
         private static Inventory INSTANCE = new Inventory();
-    }
-
-    public static class InsufficientFundsException extends Exception {
-        public InsufficientFundsException() {
-            super("Not enough funds in inventory for the current operation");
-        }
     }
 }

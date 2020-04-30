@@ -4,12 +4,14 @@ import exception.InsufficientFundsException;
 import model.*;
 import repositories.CurrencyRepository;
 import repositories.ExchangeRateRepository;
+import repositories.InventoryRepository;
 
 import java.util.Map;
 import java.util.Optional;
 
 public class InventoryService {
     private Inventory inventory;
+    private InventoryRepository inventoryRepository = InventoryRepository.getInstance();
     private AuditService auditService = AuditService.getInstance();
 
     public InventoryService() {
@@ -66,6 +68,11 @@ public class InventoryService {
         }
 
         return value;
+    }
+
+    public void saveInventory() {
+        auditService.log("saved inventory");
+        inventoryRepository.save();
     }
 
     public static InventoryService getInstance() {

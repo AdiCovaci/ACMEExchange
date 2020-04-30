@@ -10,16 +10,19 @@ import java.util.Optional;
 
 public class InventoryService {
     private Inventory inventory;
+    private AuditService auditService = AuditService.getInstance();
 
     public InventoryService() {
         inventory = Inventory.getInstance();
     }
 
     public void depositIntoInventory(Figure figure) {
+        auditService.log("deposit into inventory (" + figure + ")");
         inventory.deposit(figure);
     }
 
     public void withdrawFromInventory(Figure figure) {
+        auditService.log("withdraw from inventory (" + figure + ")");
         try {
             inventory.withdraw(figure);
         } catch (InsufficientFundsException e) {
@@ -28,14 +31,17 @@ public class InventoryService {
     }
 
     public Map<Currency, Figure> getInventoryFigures() {
+        auditService.log("view all inventory figures");
         return inventory.getFigures();
     }
 
     public Figure getInventoryFigure(Currency currency) {
+        auditService.log("view inventory for currency: " + currency);
         return inventory.getFigure(currency);
     }
 
     public Figure reportTotalInventoryValue() {
+        auditService.log("report total inventory value");
         CurrencyRepository currencyRepository = CurrencyRepository.getInstance();
         ExchangeRateRepository exchangeRateRepository = ExchangeRateRepository.getInstance();
 

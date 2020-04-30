@@ -2,52 +2,48 @@ package repositories;
 
 import model.Currency;
 import model.ExchangeRate;
+import model.FiatCurrency;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class ExchangeRateRepository {
     private List<ExchangeRate> exchangeRates = new ArrayList<>();
+    private final String file = "data/exchange_rates.csv";
 
     private ExchangeRateRepository() {
         CurrencyRepository currencyRepository = CurrencyRepository.getInstance();
 
-        exchangeRates.add(
-            new ExchangeRate(
-                    currencyRepository.findCurrencyByCode("EUR").get(),
-                    4.75,
-                    4.85,
-                    4.8
-            )
-        );
+        Path path = Paths.get(file);
 
-        exchangeRates.add(
-            new ExchangeRate(
-                    currencyRepository.findCurrencyByCode("USD").get(),
-                    3.5,
-                    3.6,
-                    3.7
-            )
-        );
+        try {
+            if (!Files.exists(path)) {
+                throw new FileNotFoundException();
+            }
 
-        exchangeRates.add(
-            new ExchangeRate(
-                    currencyRepository.findCurrencyByCode("GBP").get(),
-                    5.75,
-                    5.82,
-                    5.9
-            )
-        );
+            var xList = Files.readAllLines(path);
 
-        exchangeRates.add(
-                new ExchangeRate(
-                        currencyRepository.findCurrencyByCode("XAU").get(),
-                        225,
-                        250,
-                        233.17
-                )
-        );
+            for (String x : xList) {
+                String[] xProps = x.split(",");
+
+                ExchangeRate exchangeRate = new ExchangeRate(
+                        currencyRepository.findCurrencyByCode(xProps[0]).get(),
+                        Double.parseDouble(xProps[1]),
+                        Double.parseDouble(xProps[2]),
+                        Double.parseDouble(xProps[3])
+                );
+
+                exchangeRates.add(exchangeRate);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Optional<ExchangeRate> findExchangeRateByCurrency(Currency currency) {

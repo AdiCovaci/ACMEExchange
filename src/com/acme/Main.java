@@ -4,14 +4,28 @@ import model.Commodity;
 import model.FiatCurrency;
 import model.Figure;
 import repositories.CurrencyRepository;
+import repositories.InventoryRepository;
 import service.ExchangeService;
 import service.InventoryService;
+
+import java.io.BufferedReader;
+import java.io.Console;
+import java.security.KeyException;
 
 public class Main {
 
     public static void main(String[] args) {
         InventoryService inventoryService = InventoryService.getInstance();
+        InventoryRepository inventoryRepository = InventoryRepository.getInstance();
         CurrencyRepository currencyRepository = CurrencyRepository.getInstance();
+//        Console console = System.console();
+
+//        while (true) {
+//            System.out.println("Welcome to the ACME Exchange!");
+//            System.out.println("What do you want to do?");
+//            String response =
+//        }
+        System.out.println(inventoryService.getInventoryFigures());
 
         // Obtain some fiat currencies and probabilities
         FiatCurrency RON = (FiatCurrency) currencyRepository.findCurrencyByCode("RON").get();
@@ -79,7 +93,9 @@ public class Main {
         System.out.println(inventoryService.getInventoryFigures());
 
         // Try to exchange 100 EUR into USD
-        exchangeService.exchange(new Figure(EUR, 100), USD);
-        System.out.println(inventoryService.getInventoryFigures());
+//        exchangeService.exchange(new Figure(EUR, 100), USD);
+//        System.out.println(inventoryService.getInventoryFigures());
+
+        inventoryRepository.save();
     }
 }
